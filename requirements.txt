@@ -1,0 +1,10 @@
+# app
+fastapi
+uvicorn
+beanie
+python-dotenv
+pyaml
+# test
+pytest
+pytest-asyncio
+httpx
