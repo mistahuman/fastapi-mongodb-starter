@@ -7,18 +7,18 @@ from app.schemas.exampleitem import UpdateExampleItem
 router = APIRouter(prefix="/exampleitems", tags=["exampleitems"])
 
 
-@router.post("/", response_model=ExampleItem, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=ExampleItem, response_model_by_alias=False, status_code=status.HTTP_201_CREATED)
 async def create_exampleitem(payload: ExampleItem):
     await payload.insert()
     return payload
 
 
-@router.get("/", response_model=list[ExampleItem])
+@router.get("/", response_model=list[ExampleItem], response_model_by_alias=False)
 async def list_exampleitems():
     return await ExampleItem.find_all().to_list()
 
 
-@router.get("/{id}", response_model=ExampleItem)
+@router.get("/{id}", response_model=ExampleItem, response_model_by_alias=False)
 async def get_exampleitem(id: str):
     item = await ExampleItem.get(id)
     if not item:
@@ -26,7 +26,7 @@ async def get_exampleitem(id: str):
     return item
 
 
-@router.patch("/{id}", response_model=ExampleItem)
+@router.patch("/{id}", response_model=ExampleItem, response_model_by_alias=False)
 async def update_exampleitem(id: str, payload: UpdateExampleItem):
     item = await ExampleItem.get(id)
     if not item:

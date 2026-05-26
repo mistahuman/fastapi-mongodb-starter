@@ -1,55 +1,68 @@
-# template-fastapi-motor-skeleton
+# fastapi-mongodb-starter
 ![Python3.13](https://img.shields.io/badge/Python-3.13-brightgreen.svg?style=flat-square)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115.8-brightgreen.svg?style=flat-square)
-![Motor](https://img.shields.io/badge/Motor-3.7.0-brightgreen.svg?style=flat-square)
-![Svelte](https://img.shields.io/badge/Svelte-4.2.7-brightgreen.svg?style=flat-square)
-![Skeleton](https://img.shields.io/badge/Skeleton-v2-brightgreen.svg?style=flat-square)
+![FastAPI](https://img.shields.io/badge/FastAPI-latest-brightgreen.svg?style=flat-square)
+![Beanie](https://img.shields.io/badge/Beanie-2.x-brightgreen.svg?style=flat-square)
 
 ## Introduction
-A simple template for building applications with [FastAPI](https://fastapi.tiangolo.com/), [Motor](https://motor.readthedocs.io/), and [MongoDB](https://www.mongodb.com/) on the backend, and [SvelteKit](https://kit.svelte.dev/) with [Skeleton.dev](https://www.skeleton.dev/) on the frontend.
+A minimal backend starter for building APIs with [FastAPI](https://fastapi.tiangolo.com/), [Beanie](https://beanie-odm.dev/) (async ODM built on Motor), and [MongoDB](https://www.mongodb.com/).
+
+## Project structure
+```
+app/
+├── conf/       # Configuration and logging setup
+├── models/     # Beanie document models
+├── routers/    # FastAPI routers
+├── schemas/    # Pydantic request/response schemas
+├── utils/      # Utility helpers
+└── main.py     # App entrypoint
+tests/          # Integration tests (require a running server)
+```
 
 ## Prerequisites
-Before running the project, ensure you have the following installed on your system:
-- python
-- npm
+- Python 3.13
 - make
+- A MongoDB instance (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
 
 ## Installation
-To set up the project, follow these steps:
-1. Sign in (or sign up) MongoDB Atlas and create a database. After that, save connection string and copy to MONGO_URI into env files.
-
-2. Set up enviroments files (i.e. env.sample) in fastapi and ui for local and production:
+1. Copy and fill in the environment file:
    ```sh
-   cp env.sample .env.production 
    cp env.sample .env
    ```
+   Set `MONGO_URI`, `MONGO_DB`, `BACKEND_NAME`, and `BACKEND_VERSION`.
 
-3. Install dependencies and set up the virtual environment using Makefile:
+2. Create a virtual environment and install dependencies:
    ```sh
-   make install
+   python -m venv .venv
+   source .venv/bin/activate   # On Windows: .venv\Scripts\activate
+   pip install -r requirements.txt
    ```
 
 ## Getting Started
-Manage the application using Make commands:
 
-- Show available commands:
-  ```sh
-  make help
-  ```
-- Start development:
-  ```sh
-  make dev
-  make ui
-  ```
-- Start the web application with docker-compose:
-  ```sh
-  make run
-  ```
-- Stop the web application:
-  ```sh
-  make stop
-  ```
-- Run tests with pytest:
-  ```sh
-  make test
-  ```
+Available make commands:
+```sh
+make help     # list all commands
+make install  # create virtualenv and install dependencies
+make dev      # run development server with auto-reload
+make test     # run integration tests (requires running server)
+make build    # build Docker image
+make run      # run app via Docker
+```
+
+### Run locally
+```sh
+make dev
+```
+API available at `http://localhost:8000` — interactive docs at `http://localhost:8000/docs`.
+
+### Run with Docker
+```sh
+make build
+make run
+```
+
+## Tests
+Integration tests — require the app to be running first:
+```sh
+make test
+```

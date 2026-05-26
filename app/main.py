@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import AsyncMongoClient
 from beanie import init_beanie
 import logging
 import uvicorn
@@ -16,14 +16,14 @@ logger = logging.getLogger("main")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    client = AsyncIOMotorClient(Config.app_settings["mongodb_url"])
+    client = AsyncMongoClient(Config.app_settings["mongodb_url"])
     await init_beanie(
         database=client[Config.app_settings["db_name"]],
         document_models=[ExampleItem],
     )
     logger.info("Beanie initialized")
     yield
-    client.close()
+    await client.aclose()
 
 
 app = FastAPI(

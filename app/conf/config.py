@@ -8,11 +8,11 @@ import yaml
 load_dotenv()
 
 class Config:
-    version = os.getenv('BACKEND_VERSION')
-    title = os.getenv('BACKEND_NAME')
+    version = os.getenv('BACKEND_VERSION', '0.0.1')
+    title = os.getenv('BACKEND_NAME', 'FastAPI MongoDB Starter')
 
     app_settings = {
-        'db_name': os.getenv('MONGO_DB'),
+        'db_name': os.getenv('MONGO_DB', 'mydatabase'),
         'mongodb_url': os.getenv('MONGO_URI'),
         'db_username': os.getenv('MONGO_USER'),
         'db_password': os.getenv('MONGO_PASSWORD'),
